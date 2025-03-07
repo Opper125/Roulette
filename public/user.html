@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info - Roulette</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #3b1a5a, #6b3c8b);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .user-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .info-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #ffd700;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover { background: #ffcc00; }
+        @media (max-width: 600px) {
+            .user-container { padding: 20px; }
+            button { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="user-container">
+        <h1>User Information</h1>
+        <div class="info-box">
+            <p>Username: <span id="username">Guest</span></p>
+            <p>Balance: <span id="balance">0</span> Chips</p>
+        </div>
+        <button onclick="window.location.href='index.html'">Go to Game</button>
+        <button onclick="window.location.href='admin.html'">Admin Panel</button>
+    </div>
+
+    <script>
+        const currentUser = localStorage.getItem('currentUser') || null;
+        const users = JSON.parse(localStorage.getItem('users')) || {};
+
+        function updateUserInfo() {
+            document.getElementById('username').textContent = currentUser || 'Guest';
+            document.getElementById('balance').textContent = users[currentUser]?.balance || 0;
+        }
+
+        window.onload = () => {
+            if (!currentUser) alert('Please login via Admin first!');
+            updateUserInfo();
+        };
+    </script>
+</body>
+</html>
