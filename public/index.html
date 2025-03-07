@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Roulette - Real Game</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>European Roulette</h1>
+        
+        <!-- User Info -->
+        <div id="user-info" class="user-info">
+            <p>Username: <span id="username"></span></p>
+            <p>Balance: <span id="balance">0</span> Chips</p>
+            <button onclick="showAdminPanel()">Admin Panel</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Roulette Wheel -->
+        <div class="roulette-wheel" id="wheel">
+            <div class="wheel-center"></div>
+        </div>
+
+        <!-- Betting Table -->
+        <div class="betting-table" id="betting-table"></div>
+
+        <!-- Chips -->
+        <div class="chips">
+            <div class="chip" data-value="1" style="background-color: #ff4500;">1</div>
+            <div class="chip" data-value="5" style="background-color: #1e90ff;">5</div>
+            <div class="chip" data-value="10" style="background-color: #ff69b4;">10</div>
+            <div class="chip" data-value="25" style="background-color: #00ced1;">25</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="spinWheel()">Spin</button>
+            <button onclick="clearBets()">Clear Bets</button>
+        </div>
+
+        <!-- Result -->
+        <div id="result"></div>
+
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="admin-panel" style="display: none;">
+            <h2>Admin Panel</h2>
+            <input type="text" id="admin-username" placeholder="Username">
+            <input type="number" id="admin-amount" placeholder="Amount">
+            <button onclick="deposit()">Deposit</button>
+            <button onclick="withdraw()">Withdraw</button>
+            <button onclick="fetchUsers()">Show Users</button>
+            <div id="user-list"></div>
+            <button onclick="hideAdminPanel()">Close</button>
+        </div>
+    </div>
+
+    <script src="/data.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>
