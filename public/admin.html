@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Roulette</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2f2f2f, #4a4a4a);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .admin-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        input::placeholder { color: #ccc; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #ffd700;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover { background: #ffcc00; }
+        #user-list {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .admin-container { padding: 20px; }
+            input, button { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Admin Panel</h1>
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Username">
+            <input type="number" id="amount" placeholder="Amount (Chips)">
+            <button onclick="createUser()">Create User</button>
+            <button onclick="deposit()">Deposit</button>
+        </div>
+        <button onclick="showUsers()">Show All Users</button>
+        <div id="user-list"></div>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='index.html'">Go to Game</button>
+            <button onclick="window.location.href='user.html'">User Info</button>
+        </div>
+    </div>
+
+    <script>
+        const users = JSON.parse(localStorage.getItem('users')) || {};
+        function saveUsers() {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function createUser() {
+            const username = document.getElementById('username').value.trim();
+            const amount = parseInt(document.getElementById('amount').value) || 0;
+            if (!username) return alert('Please enter a username!');
+            if (users[username]) return alert('User already exists!');
+            
+            users[username] = { balance: amount };
+            saveUsers();
+            localStorage.setItem('currentUser', username);
+            alert(`User ${username} created with ${amount} chips!`);
+            document.getElementById('username').value = '';
+            document.getElementById('amount').value = '';
+        }
+
+        function deposit() {
+            const username = document.getElementById('username').value.trim();
+            const amount = parseInt(document.getElementById('amount').value);
+            if (!username || !amount || amount <= 0) return alert('Enter valid username and amount!');
+            if (!users[username]) return alert('User not found!');
+            
+            users[username].balance += amount;
+            saveUsers();
+            alert(`Deposited ${amount} chips to ${username}!`);
+            document.getElementById('amount').value = '';
+            showUsers();
+        }
+
+        function showUsers() {
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '<h3>User Records</h3>' + 
+                Object.entries(users).map(([name, data]) => 
+                    `<p>${name}: ${data.balance} chips</p>`).join('');
+        }
+
+        window.onload = () => showUsers();
+    </script>
+</body>
+</html>
